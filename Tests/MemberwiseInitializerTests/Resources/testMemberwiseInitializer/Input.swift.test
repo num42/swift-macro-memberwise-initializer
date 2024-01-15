@@ -1,0 +1,5 @@
+@MemberwiseInitializer
+struct A {
+  let a: String
+  let b: String
+}

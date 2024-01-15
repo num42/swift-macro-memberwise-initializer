@@ -1,0 +1,10 @@
+@MemberwiseInitializer
+struct A {
+  static let constant = 99
+  let a: String
+  
+  var isAEmpty: Bool {
+    a.size == 0
+  }
+}
+
