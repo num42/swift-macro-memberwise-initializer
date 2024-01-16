@@ -26,7 +26,7 @@ let package = Package(
     // Targets can depend on other targets in this package and products from dependencies.
     // Macro implementation that performs the source transformation of a macro.
     .macro(
-      name: "MemberwiseInitializerMacros",
+      name: "\(name)Macros",
       dependencies: [
         .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
         .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
