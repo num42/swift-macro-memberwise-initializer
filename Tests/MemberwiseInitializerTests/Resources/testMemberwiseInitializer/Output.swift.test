@@ -1,9 +1,9 @@
 struct A {
   let a: String
   let b: String
-  
-  public init(a: String, b: String) {
-    self.a = a
-    self.b = b
-  }
+
+    public init(a: String, b: String) {
+        self.a = a
+        self.b = b
+    }
 }
