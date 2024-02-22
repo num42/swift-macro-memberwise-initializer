@@ -1,9 +1,11 @@
 struct A {
   let a: String
-  let b: String
+  let b: String?
+  let c: () -> Void
 
-    public init(a: String, b: String) {
+    public init(a: String, b: String? = nil, c: @escaping () -> Void) {
         self.a = a
         self.b = b
+        self.c = c
     }
 }

@@ -20,12 +20,33 @@ public struct MemberwiseInitializerMacro: MemberMacro {
       .flatMap(\.bindings)
       .filter { $0.accessorBlock == nil }
 
-    let parameters = bindings.map { "\($0.pattern): \($0.typeAnnotation!.type)" }.joined(separator: ", ")
-    let header = SyntaxNodeString(stringLiteral: "public init(\(parameters))")
+    var parameters = [String]()
+    var initializations = [String]()
+    
+      bindings.forEach {
+      guard let typeAnnotation = $0.typeAnnotation else { return }
+      var typeAnnotationText = "\(typeAnnotation.type)"
+
+      // Detect if the property is a closure
+      if typeAnnotationText.contains("() ->") && !typeAnnotationText.contains("@escaping") {
+        typeAnnotationText = "@escaping " + typeAnnotationText
+      }
+            
+      // Prepare parameter string, auto-nil for optional values
+      let defaultValue = (typeAnnotationText.contains("?") || typeAnnotationText.contains("= nil")) ? " = nil" : ""
+        let parameter = "\($0.pattern): \(typeAnnotationText)\(defaultValue)"
+      parameters.append(parameter)
+      
+      // Prepare initialization string
+        let initialization = "self.\($0.pattern) = \($0.pattern)"
+      initializations.append(initialization)
+    }
+
+    let header = SyntaxNodeString(stringLiteral: "public init(\(parameters.joined(separator: ", ")))")
 
     let initializer = try! InitializerDeclSyntax(header) {
       CodeBlockItemListSyntax(
-        bindings.map { "self.\($0.pattern) = \($0.pattern)" }.map { CodeBlockItemListSyntax.Element(stringLiteral: $0) }
+        initializations.map { CodeBlockItemListSyntax.Element(stringLiteral: $0) }
       )
     }
 
