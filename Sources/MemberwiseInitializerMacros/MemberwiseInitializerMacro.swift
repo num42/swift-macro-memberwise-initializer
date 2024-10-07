@@ -14,7 +14,7 @@ public struct MemberwiseInitializerMacro: MemberMacro {
     }
 
     let bindings = structDeclaration.memberBlock.members
-      .compactMap { $0.as(MemberBlockItemSyntax.self) }
+      .compactMap { $0 }
       .compactMap { $0.decl.as(VariableDeclSyntax.self) }
       .filter { !($0.modifiers).contains { $0.name.text == "static" } }
       .flatMap(\.bindings)
