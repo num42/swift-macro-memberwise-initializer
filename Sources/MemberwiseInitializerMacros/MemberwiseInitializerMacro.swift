@@ -7,6 +7,7 @@ public struct MemberwiseInitializerMacro: MemberMacro {
   public static func expansion(
     of attribute: AttributeSyntax,
     providingMembersOf declaration: some DeclGroupSyntax,
+    conformingTo protocols: [TypeSyntax],
     in context: some MacroExpansionContext
   ) throws -> [DeclSyntax] {
     guard let structDeclaration = declaration.as(StructDeclSyntax.self) else {
