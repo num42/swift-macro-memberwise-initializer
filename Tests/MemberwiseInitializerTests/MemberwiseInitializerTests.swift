@@ -2,18 +2,18 @@ import MacroTester
 import MemberwiseInitializerMacros
 import SwiftSyntaxMacros
 import SwiftSyntaxMacrosTestSupport
-import XCTest
+import Testing
 
 let testMacros: [String: Macro.Type] = [
   "MemberwiseInitializer": MemberwiseInitializerMacro.self
 ]
 
-final class MemberwiseInitializerTests: XCTestCase {
-  func testMemberwiseInitializer() throws {
-    testMacro(macros: testMacros)
+@Suite struct MemberwiseInitializerTests {
+  @Test func memberwiseInitializer() {
+    MacroTester.testMacro(macros: testMacros)
   }
 
-  func testMemberwiseInitializerWithConstant() throws {
-    testMacro(macros: testMacros)
+  @Test func memberwiseInitializerWithConstant() {
+    MacroTester.testMacro(macros: testMacros)
   }
 }
