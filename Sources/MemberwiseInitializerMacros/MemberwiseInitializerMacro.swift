@@ -21,12 +21,15 @@ public struct MemberwiseInitializerMacro: MemberMacro {
       .flatMap(\.bindings)
       .filter { $0.accessorBlock == nil }
 
-    let parameters = bindings.map { "\($0.pattern): \($0.typeAnnotation!.type)" }.joined(separator: ", ")
+    let parameters = bindings.map { "\($0.pattern): \($0.typeAnnotation!.type)" }.joined(
+      separator: ", ")
     let header = SyntaxNodeString(stringLiteral: "public init(\(parameters))")
 
     let initializer = try! InitializerDeclSyntax(header) {
       CodeBlockItemListSyntax(
-        bindings.map { "self.\($0.pattern) = \($0.pattern)" }.map { CodeBlockItemListSyntax.Element(stringLiteral: $0) }
+        bindings.map { "self.\($0.pattern) = \($0.pattern)" }.map {
+          CodeBlockItemListSyntax.Element(stringLiteral: $0)
+        }
       )
     }
 
