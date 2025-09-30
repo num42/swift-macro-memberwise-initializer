@@ -10,10 +10,10 @@ let testMacros: [String: Macro.Type] = [
 
 @Suite struct MemberwiseInitializerTests {
   @Test func memberwiseInitializer() {
-      MacroTester.testMacro(macros: testMacros)
+    MacroTester.testMacro(macros: testMacros)
   }
 
   @Test func memberwiseInitializerWithConstant() {
-      MacroTester.testMacro(macros: testMacros)
+    MacroTester.testMacro(macros: testMacros)
   }
 }
