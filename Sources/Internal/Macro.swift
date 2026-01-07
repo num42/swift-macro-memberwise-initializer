@@ -1,4 +1,3 @@
-import SwiftCompilerPlugin
 import SwiftSyntax
 import SwiftSyntaxBuilder
 import SwiftSyntaxMacros
@@ -37,11 +36,4 @@ public struct MemberwiseInitializerMacro: MemberMacro {
       DeclSyntax(initializer)
     ]
   }
-}
-
-@main
-struct MemberwiseInitializerPlugin: CompilerPlugin {
-  let providingMacros: [Macro.Type] = [
-    MemberwiseInitializerMacro.self
-  ]
 }
