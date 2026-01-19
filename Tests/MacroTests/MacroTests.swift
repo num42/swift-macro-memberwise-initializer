@@ -1,19 +1,23 @@
 import MacroTester
-import MemberwiseInitializerMacros
 import SwiftSyntaxMacros
 import SwiftSyntaxMacrosTestSupport
 import Testing
 
-let testMacros: [String: Macro.Type] = [
-  "MemberwiseInitializer": MemberwiseInitializerMacro.self
-]
+#if canImport(MemberwiseInitializerMacros)
+  import MemberwiseInitializerMacros
 
-@Suite struct MemberwiseInitializerTests {
-  @Test func memberwiseInitializer() {
-    MacroTester.testMacro(macros: testMacros)
-  }
+  let testMacros: [String: Macro.Type] = [
+    "MemberwiseInitializer": MemberwiseInitializerMacro.self
+  ]
 
-  @Test func memberwiseInitializerWithConstant() {
-    MacroTester.testMacro(macros: testMacros)
+  @Suite
+  struct MemberwiseInitializerMacroTests {
+    @Test func memberwiseInitializer() {
+      MacroTester.testMacro(macros: testMacros)
+    }
+
+    @Test func memberwiseInitializerWithConstant() {
+      MacroTester.testMacro(macros: testMacros)
+    }
   }
-}
+#endif
