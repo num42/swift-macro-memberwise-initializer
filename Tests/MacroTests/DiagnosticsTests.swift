@@ -52,7 +52,8 @@ import Testing
           """,
         diagnostics: [
           .init(
-            message: MemberwiseInitializerMacro.MacroDiagnostic.requiresTypedStoredProperties.message,
+            message: MemberwiseInitializerMacro.MacroDiagnostic.requiresTypedStoredProperties
+              .message,
             line: 1,
             column: 1
           )

@@ -6,7 +6,8 @@ import SwiftSyntaxMacros
 public struct MemberwiseInitializerMacro: MemberMacro {
   enum MacroDiagnostic: String, DiagnosticMessage {
     case requiresStruct = "#MemberwiseInitializer requires a struct"
-    case requiresTypedStoredProperties = "#MemberwiseInitializer requires explicit type annotations on stored properties"
+    case requiresTypedStoredProperties =
+      "#MemberwiseInitializer requires explicit type annotations on stored properties"
 
     var message: String { rawValue }
 
