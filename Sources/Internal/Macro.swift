@@ -4,18 +4,18 @@ import SwiftSyntaxBuilder
 import SwiftSyntaxMacros
 
 public struct MemberwiseInitializerMacro: MemberMacro {
-  enum MacroDiagnostic: String, DiagnosticMessage {
+  public enum MacroDiagnostic: String, DiagnosticMessage {
     case requiresStruct = "#MemberwiseInitializer requires a struct"
     case requiresTypedStoredProperties =
       "#MemberwiseInitializer requires explicit type annotations on stored properties"
 
-    var message: String { rawValue }
+    public var message: String { rawValue }
 
-    var diagnosticID: MessageID {
+    public var diagnosticID: MessageID {
       MessageID(domain: "MemberwiseInitializer", id: rawValue)
     }
 
-    var severity: DiagnosticSeverity { .error }
+    public var severity: DiagnosticSeverity { .error }
   }
 
   public static func expansion(
