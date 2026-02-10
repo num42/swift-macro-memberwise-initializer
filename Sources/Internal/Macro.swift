@@ -1,8 +1,23 @@
+import SwiftDiagnostics
 import SwiftSyntax
 import SwiftSyntaxBuilder
 import SwiftSyntaxMacros
 
 public struct MemberwiseInitializerMacro: MemberMacro {
+  public enum MacroDiagnostic: String, DiagnosticMessage {
+    case requiresStruct = "#MemberwiseInitializer requires a struct"
+    case requiresTypedStoredProperties =
+      "#MemberwiseInitializer requires explicit type annotations on stored properties"
+
+    public var message: String { rawValue }
+
+    public var diagnosticID: MessageID {
+      MessageID(domain: "MemberwiseInitializer", id: rawValue)
+    }
+
+    public var severity: DiagnosticSeverity { .error }
+  }
+
   public static func expansion(
     of attribute: AttributeSyntax,
     providingMembersOf declaration: some DeclGroupSyntax,
@@ -10,7 +25,12 @@ public struct MemberwiseInitializerMacro: MemberMacro {
     in context: some MacroExpansionContext
   ) throws -> [DeclSyntax] {
     guard let structDeclaration = declaration.as(StructDeclSyntax.self) else {
-      return []
+      let diagnostic = Diagnostic(
+        node: Syntax(attribute),
+        message: MacroDiagnostic.requiresStruct
+      )
+      context.diagnose(diagnostic)
+      throw DiagnosticsError(diagnostics: [diagnostic])
     }
 
     let bindings = structDeclaration.memberBlock.members
@@ -19,6 +39,15 @@ public struct MemberwiseInitializerMacro: MemberMacro {
       .filter { !($0.modifiers).contains { $0.name.text == "static" } }
       .flatMap(\.bindings)
       .filter { $0.accessorBlock == nil }
+
+    guard bindings.allSatisfy({ $0.typeAnnotation != nil }) else {
+      let diagnostic = Diagnostic(
+        node: Syntax(attribute),
+        message: MacroDiagnostic.requiresTypedStoredProperties
+      )
+      context.diagnose(diagnostic)
+      throw DiagnosticsError(diagnostics: [diagnostic])
+    }
 
     let parameters = bindings.map { "\($0.pattern): \($0.typeAnnotation!.type)" }.joined(
       separator: ", ")
