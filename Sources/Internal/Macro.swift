@@ -1,6 +1,7 @@
 internal import MacroHelper
 public import SwiftDiagnostics
 public import SwiftSyntax
+internal import SwiftSyntaxBuilder
 public import SwiftSyntaxMacros
 
 public struct MemberwiseInitializerMacro: MemberMacro {
