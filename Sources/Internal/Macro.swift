@@ -1,7 +1,8 @@
-import SwiftDiagnostics
-import SwiftSyntax
-import SwiftSyntaxBuilder
-import SwiftSyntaxMacros
+internal import MacroHelper
+public import SwiftDiagnostics
+public import SwiftSyntax
+internal import SwiftSyntaxBuilder
+public import SwiftSyntaxMacros
 
 public struct MemberwiseInitializerMacro: MemberMacro {
   public enum MacroDiagnostic: String, DiagnosticMessage {
@@ -33,12 +34,7 @@ public struct MemberwiseInitializerMacro: MemberMacro {
       throw DiagnosticsError(diagnostics: [diagnostic])
     }
 
-    let bindings = structDeclaration.memberBlock.members
-      .compactMap { $0 }
-      .compactMap { $0.decl.as(VariableDeclSyntax.self) }
-      .filter { !($0.modifiers).contains { $0.name.text == "static" } }
-      .flatMap(\.bindings)
-      .filter { $0.accessorBlock == nil }
+    let bindings = structDeclaration.storedPropertyBindings(includingStatic: false)
 
     guard bindings.allSatisfy({ $0.typeAnnotation != nil }) else {
       let diagnostic = Diagnostic(
