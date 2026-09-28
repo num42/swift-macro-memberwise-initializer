@@ -1,16 +1,11 @@
-internal import MacroTester
-internal import SwiftSyntaxMacros
-internal import SwiftSyntaxMacrosTestSupport
+internal import SwiftSyntaxMacrosGenericTestSupport
 internal import Testing
 
 #if canImport(MemberwiseInitializerMacros)
   import MemberwiseInitializerMacros
 
-  @Suite struct MemberwiseInitializerDiagnosticsTests {
-    let testMacros: [String: Macro.Type] = [
-      "MemberwiseInitializer": MemberwiseInitializerMacro.self
-    ]
-
+  @Suite
+  struct MemberwiseInitializerDiagnosticsTests {
     @Test func classThrowsError() {
       assertMacroExpansion(
         """
