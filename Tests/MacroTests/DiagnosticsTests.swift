@@ -1,3 +1,4 @@
+internal import MacroTestHelper
 internal import SwiftSyntaxMacrosGenericTestSupport
 internal import Testing
 
@@ -7,7 +8,7 @@ internal import Testing
   @Suite
   struct MemberwiseInitializerDiagnosticsTests {
     @Test func classThrowsError() {
-      assertMacroExpansion(
+      MacroTestHelper.assertMacroExpansion(
         """
         @MemberwiseInitializer
         class AClass {
@@ -33,7 +34,7 @@ internal import Testing
     }
 
     @Test func untypedStoredPropertyThrowsError() {
-      assertMacroExpansion(
+      MacroTestHelper.assertMacroExpansion(
         """
         @MemberwiseInitializer
         struct UntypedProperty {
